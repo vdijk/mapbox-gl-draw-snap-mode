@@ -15,10 +15,8 @@ SnapSimpleSelectMode.onSetup = function (opts) {
 
   const featureIds = opts.featureIds;
   const feature = featureIds && featureIds.length > 0 ? this.getFeature(featureIds[0]) : {};
-  console.log('initial features: ', feature);
 
   const [snapList, vertices] = feature ? createSnapList(this.map, this._ctx.api, feature) : [[], []];
-  console.log('create snaplist: ', snapList);
 
   const snapState = {
     map: this.map,
@@ -41,7 +39,6 @@ SnapSimpleSelectMode.onMouseUp = function (state, e) {
 
   if (!this.map.isMoving() && !this.map.isZooming() && featuresSelected && featuresSelected.length > 0) {
     const snapped = snap(state, e);
-    console.log('snapped: ', snapped);
     (featuresSelected[0]).updateCoordinate(snapped.lng, snapped.lat);
   }
   SimpleSelect.onMouseUp?.call(this, state, e);
@@ -49,22 +46,15 @@ SnapSimpleSelectMode.onMouseUp = function (state, e) {
 
 function registerCallbacks(map, state) {
   const moveEndCallback = () => {
-    try {
       const [snapList, vertices] = createSnapList(this.map, this._ctx.api, {});
-      console.log('create snaplist: ', snapList);
       state.vertices = vertices;
       state.snapList = snapList;
-    } catch (error) {
-      console.error('Failed to determine snaplist', error);
-    }
   };
   state.moveEndCallback = moveEndCallback;
 
-  console.log('add moveend listener');
   map.on('moveend', moveEndCallback);
 
   const optionsChangedCallBack = (options) => {
-    console.log('options changed', options)
     state.options = options;
   };
   // for removing listener later on close
@@ -76,7 +66,6 @@ SnapSimpleSelectMode.onStop = function (state) {
   this.deleteFeature(IDS.VERTICAL_GUIDE, {silent: true});
   this.deleteFeature(IDS.HORIZONTAL_GUIDE, {silent: true});
 
-  console.log('remove moveend listener');
   // remove moveemd callback
   this.map.off("moveend", state.moveendCallback);
   this.map.off("draw.snap.options_changed", state.optionsChangedCallBack);
