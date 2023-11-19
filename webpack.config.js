@@ -1,7 +1,7 @@
 const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
+    .BundleAnalyzerPlugin;
 const path = require("path");
 
 module.exports = [
@@ -19,7 +19,7 @@ module.exports = [
     },
     optimization: {
       minimize: true,
-      minimizer: [new TerserPlugin({ parallel: true })],
+      minimizer: [new TerserPlugin({parallel: true})],
     },
     // externals: [/^(@mapbox\/mapbox-gl-draw).*$/],
     // externals: [
@@ -52,6 +52,14 @@ module.exports = [
       ],
     },
     plugins: [
+      // new CopyPlugin({
+      //   patterns: [
+      //     { from: "typings/mapbox-gl-draw-snap-mode.d.ts", to: "mapbox-gl-draw-snap-mode.d.ts" },
+      //   ],
+      //   options: {
+      //     concurrency: 100,
+      //   },
+      // }),
       // new BundleAnalyzerPlugin({
       //   analyzerMode: "server",
       //   generateStatsFile: true,

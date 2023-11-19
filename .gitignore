@@ -3,3 +3,5 @@ node_modules
 
 # temp
 /src/docs.js
+/.idea/
+/dist/

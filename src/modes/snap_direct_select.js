@@ -75,7 +75,7 @@ SnapDirectSelect.onStop = function (state) {
   this.deleteFeature(IDS.HORIZONTAL_GUIDE, { silent: true });
 
   // remove moveemd callback
-  //   this.map.off("moveend", state.moveendCallback);
+  this.map.off("moveend", state.moveendCallback);
   this.map.off("draw.snap.options_changed", state.optionsChangedCallBAck);
 
   // This relies on the the state of SnapPolygonMode being similar to DrawPolygon
