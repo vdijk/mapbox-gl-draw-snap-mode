@@ -32,6 +32,7 @@ import {
   SnapLineMode,
   SnapModeDrawStyles,
   SnapDirectSelect,
+  SnapSimpleSelectMode
 } from "mapbox-gl-draw-snap-mode";
 // or global variable mapboxGlDrawSnapMode when using script tag
 
@@ -42,6 +43,7 @@ const draw = new MapboxDraw({
     draw_polygon: SnapPolygonMode,
     draw_line_string: SnapLineMode,
     direct_select: SnapDirectSelect,
+    siple_select: SnapSimpleSelectMode,
   },
   // Styling guides
   styles: SnapModeDrawStyles,
