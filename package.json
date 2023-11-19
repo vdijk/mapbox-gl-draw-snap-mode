@@ -1,7 +1,7 @@
 {
-  "name": "mapbox-gl-draw-snap-mode",
+  "name": "mapbox-gl-draw-simple-select-snap-mode",
   "version": "0.3.0",
-  "description": "Snapping mode for mapbox-gl-draw",
+  "description": "Snapping mode for mapbox-gl-draw with snapping in simple select mode",
   "main": "dist/mapbox-gl-draw-snap-mode.js",
   "module": "src/index.js",
   "types": "dist/index.d.ts",
