@@ -37,18 +37,26 @@ SnapSimpleSelectMode.onSetup = function (opts) {
 SnapSimpleSelectMode.onMouseUp = function (state, e) {
   const featuresSelected = this.getSelected();
 
-  if (!this.map.isMoving() && !this.map.isZooming() && featuresSelected && featuresSelected.length > 0) {
+  if (!this.map.isMoving() && !this.map.isZooming() && featuresSelected && featuresSelected.length > 0 && isPointFeature(featuresSelected[0])) {
     const snapped = snap(state, e);
     (featuresSelected[0]).updateCoordinate(snapped.lng, snapped.lat);
   }
   SimpleSelect.onMouseUp?.call(this, state, e);
 };
 
+function isPointFeature(feature) {
+  return feature.type === 'Point';
+}
+
 function registerCallbacks(map, state) {
   const moveEndCallback = () => {
+    try {
       const [snapList, vertices] = createSnapList(this.map, this._ctx.api, {});
       state.vertices = vertices;
       state.snapList = snapList;
+    } catch (error) {
+      console.warn('Failed to determine snaplist. This could happen when listener is not cleared', error);
+    }
   };
   state.moveEndCallback = moveEndCallback;
 
