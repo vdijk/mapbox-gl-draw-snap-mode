@@ -1,7 +1,7 @@
 const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-    .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const path = require("path");
 
 module.exports = [
@@ -11,7 +11,7 @@ module.exports = [
     devtool: "source-map",
     output: {
       path: path.resolve(__dirname, "dist"),
-      filename: "mapbox-gl-draw-snap-mode.js",
+      filename: "mapbox-gl-draw-snap-mode.cjs.js",
       library: "mapboxGlDrawSnapMode",
       libraryTarget: "umd",
       globalObject: "this",
@@ -19,7 +19,7 @@ module.exports = [
     },
     optimization: {
       minimize: true,
-      minimizer: [new TerserPlugin({parallel: true})],
+      minimizer: [new TerserPlugin({ parallel: true })],
     },
     // externals: [/^(@mapbox\/mapbox-gl-draw).*$/],
     // externals: [
@@ -66,5 +66,38 @@ module.exports = [
       //   statsOptions: { source: false },
       // }),
     ],
+  },
+  {
+    mode: "production",
+    entry: "./src/index.js",
+    devtool: "source-map",
+    output: {
+      path: path.resolve(__dirname, "dist"),
+      filename: "mapbox-gl-draw-snap-mode.esm.js",
+      library: {
+        type: "module",
+      },
+    },
+    optimization: {
+      minimize: true,
+      minimizer: [new TerserPlugin({ parallel: true })],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env"],
+            },
+          },
+        },
+      ],
+    },
+    experiments: {
+      outputModule: true,
+    },
   },
 ];

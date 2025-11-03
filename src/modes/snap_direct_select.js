@@ -1,8 +1,14 @@
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
-import { createSnapList, getGuideFeature, IDS, snap } from "./../utils";
+import {
+  createSnapList,
+  getGuideFeature,
+  IDS,
+  snap,
+} from "./../utils/index.js";
+
 const { doubleClickZoom } = MapboxDraw.lib;
-const DirectSelect = MapboxDraw.modes.direct_select;
 const Constants = MapboxDraw.constants;
+const DirectSelect = MapboxDraw.modes.direct_select;
 const SnapDirectSelect = { ...DirectSelect };
 
 SnapDirectSelect.onSetup = function (opts) {
@@ -17,7 +23,12 @@ SnapDirectSelect.onSetup = function (opts) {
     throw new TypeError("direct_select mode doesn't handle point features");
   }
 
-  const [snapList, vertices] = createSnapList(this.map, this._ctx.api, feature);
+  const [snapList, vertices] = createSnapList(
+      this.map,
+      this._ctx.api,
+      feature,
+      this._ctx.options.snapOptions?.snapGetFeatures
+  );
 
   const verticalGuide = this.newFeature(getGuideFeature(IDS.VERTICAL_GUIDE));
   const horizontalGuide = this.newFeature(
@@ -75,7 +86,7 @@ SnapDirectSelect.onStop = function (state) {
   this.deleteFeature(IDS.HORIZONTAL_GUIDE, { silent: true });
 
   // remove moveemd callback
-  this.map.off("moveend", state.moveendCallback);
+  // this.map.off("moveend", state.moveendCallback);
   this.map.off("draw.snap.options_changed", state.optionsChangedCallBAck);
 
   // This relies on the the state of SnapPolygonMode being similar to DrawPolygon
