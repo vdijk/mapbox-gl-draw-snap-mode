@@ -49,18 +49,31 @@ function isPointFeature(feature) {
 }
 
 function registerCallbacks(map, state) {
+  let lastCall = 0;
+  const throttle = (fn, limit) => {
+    return function (...args) {
+      const now = Date.now();
+      if (now - lastCall >= limit) {
+        fn.apply(this, args);
+        lastCall = now;
+      }
+    }
+  };
+
   const moveEndCallback = () => {
     try {
-      const [snapList, vertices] = createSnapList(this.map, this._ctx.api, {});
+      const [snapList, vertices] = createSnapList(map, this._ctx.api, {});
       state.vertices = vertices;
       state.snapList = snapList;
     } catch (error) {
-      console.warn('Failed to determine snaplist. This could happen when listener is not cleared', error);
+      console.debug('Failed to determine snaplist. This could happen when listener is not cleared', error);
+      map.off("moveend", state.moveendCallback);
     }
   };
-  state.moveEndCallback = moveEndCallback;
 
-  map.on('moveend', moveEndCallback);
+  const throttledCallback = throttle(moveEndCallback, 200);
+  state.moveEndCallback = throttledCallback;
+  map.on('moveend', throttledCallback);
 
   const optionsChangedCallBack = (options) => {
     state.options = options;

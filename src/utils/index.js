@@ -1,21 +1,16 @@
 // Heavily inspired from work of @davidgilbertson on Github and `leaflet-geoman` project.
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
-
-const { geojsonTypes } = MapboxDraw.constants;
-
 import bboxPolygon from "@turf/bbox-polygon";
 import booleanDisjoint from "@turf/boolean-disjoint";
-import { getCoords } from "@turf/invariant";
+import {getCoords} from "@turf/invariant";
 import distance from "@turf/distance";
 import polygonToLine from "@turf/polygon-to-line";
 import nearestPointOnLine from "@turf/nearest-point-on-line";
 import nearestPointInPointSet from "@turf/nearest-point";
 import midpoint from "@turf/midpoint";
-import {
-  featureCollection,
-  lineString as turfLineString,
-  point as turfPoint,
-} from "@turf/helpers";
+import {featureCollection, lineString as turfLineString, point as turfPoint,} from "@turf/helpers";
+
+const { geojsonTypes } = MapboxDraw.constants;
 
 export const IDS = {
   VERTICAL_GUIDE: "VERTICAL_GUIDE",
